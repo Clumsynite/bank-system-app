@@ -30,3 +30,15 @@ export const login = async (user) => {
     return error;
   }
 };
+
+export const logout = async () => {
+  try {
+    const response = await fetch(`${URL}/logout`, {
+      method: "POST",
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
