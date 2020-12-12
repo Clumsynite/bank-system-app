@@ -14,6 +14,16 @@
         <p class="card-text">Account type: {{ user.account }}</p>
       </div>
     </div>
+        <transition
+      name="slide-in"
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+      id="transaction_table"
+    >
+      <h3 class="text-center mt-3 text-dark" v-if="transactions.length === 0">
+        Loading Table...
+      </h3>
+    </transition>
     <transition
       name="slide-in"
       enter-active-class="animate__animated animate__slideInUp"
