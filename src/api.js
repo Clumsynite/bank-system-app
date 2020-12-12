@@ -102,3 +102,16 @@ export const deposit = async (amount, token) => {
     return error;
   }
 };
+
+export const allCustomers = async (token) => {
+  try {
+    const response = await fetch(`${URL}/all/customers`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    return error;
+  }
+};
