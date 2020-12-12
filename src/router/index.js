@@ -5,6 +5,7 @@ import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Customer from "../components/Customer.vue";
 import Banker from "../components/Banker.vue";
+import Transact from "../components/Transact.vue";
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,7 @@ const routes = [
     component: Banker,
     meta: {
       requiresAuth: true,
+      banker: true,
     },
   },
   {
@@ -44,6 +46,16 @@ const routes = [
     component: Customer,
     meta: {
       requiresAuth: true,
+      customer: "true",
+    },
+  },
+  {
+    path: "/transact",
+    name: "transact",
+    component: Transact,
+    meta: {
+      requiresAuth: true,
+      customer: true,
     },
   },
 ];
@@ -64,10 +76,18 @@ router.beforeEach((to, from, next) => {
         params: { nextUrl: to.fullPath },
       });
     } else {
-      if (to.name !== "banker" && user.account === "banker") {
-        next({ name: "banker" });
-      } else if (to.name !== "customer" && user.account === "customer") {
-        next({ name: "customer" });
+      if (to.matched.some((record) => record.meta.banker)) {
+        if (user.account === "banker") {
+          next();
+        } else {
+          next({ name: "Home" });
+        }
+      } else if (to.matched.some((record) => record.meta.customer)) {
+        if (user.account === "customer") {
+          next();
+        } else {
+          next({ name: "Home" });
+        }
       } else {
         next();
       }
