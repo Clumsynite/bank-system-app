@@ -6,6 +6,7 @@ import Signup from "@/components/Signup.vue";
 import Customer from "../components/Customer.vue";
 import Banker from "../components/Banker.vue";
 import Transact from "../components/Transact.vue";
+import Transactions from "../components/Transactions.vue";
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,15 @@ const routes = [
     path: "/banker",
     name: "banker",
     component: Banker,
+    meta: {
+      requiresAuth: true,
+      banker: true,
+    },
+  },
+  {
+    path: "/banker/:username/transactions",
+    name: "transactions",
+    component: Transactions,
     meta: {
       requiresAuth: true,
       banker: true,
