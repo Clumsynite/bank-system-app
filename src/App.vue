@@ -23,19 +23,19 @@
               >Home</router-link
             >
           </li>
-          <li class="nav-item" v-if="token === null">
+          <li class="nav-item" v-if="token === undefined">
             <router-link to="/login" class="nav-link" active-class="active"
               >Login</router-link
             >
           </li>
-          <li class="nav-item" v-if="token === null">
+          <li class="nav-item" v-if="token === undefined">
             <router-link to="/signup" class="nav-link" active-class="active"
               >Create New Account</router-link
             >
           </li>
           <li
             class="nav-item"
-            v-if="token !== null && user.account === 'banker'"
+            v-if="token !== undefined && user.account === 'banker'"
           >
             <router-link to="/banker" class="nav-link" active-class="active"
               >Banker Profile</router-link
@@ -43,7 +43,7 @@
           </li>
           <li
             class="nav-item"
-            v-if="token !== null && user.account === 'customer'"
+            v-if="token !== undefined && user.account === 'customer'"
           >
             <router-link to="/customer" class="nav-link" active-class="active"
               >Customer Profile</router-link
@@ -51,7 +51,7 @@
           </li>
           <li
             class="nav-item"
-            v-if="token !== null && user.account === 'customer'"
+            v-if="token !== undefined && user.account === 'customer'"
           >
             <router-link to="/transact" class="nav-link" active-class="active"
               >Transact</router-link
@@ -59,7 +59,7 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          <li v-if="token !== null">
+          <li v-if="token !== undefined">
             <button class="btn btn-outline-dark" @click="handleLogout">
               Logout
             </button>
@@ -79,36 +79,27 @@ export default {
   name: "APP",
   data() {
     return {
-      token: "",
-      user: "",
+      token: localStorage.token,
+      user: JSON.parse(localStorage.user),
     };
   },
   mounted() {
-    if (localStorage.token) {
-      this.token = localStorage.token;
+    if (!localStorage.user) {
+      localStorage.setItem("user", JSON.stringify({ account: "" }));
     }
-    if (localStorage.user) {
-      this.user = JSON.parse(localStorage.user);
+    if (localStorage.token === "undefined") {
+      localStorage.setItem("token", undefined);
     }
-  },
-  watch: {
-    token(newToken) {
-      localStorage.token = newToken;
-    },
-    user(newUser) {
-      localStorage.user = JSON.stringify(newUser);
-    },
   },
   methods: {
     async handleLogout() {
       try {
         const data = await logout();
-        console.log(data);
         localStorage.clear();
+        localStorage.setItem("user", JSON.stringify({ account: "" }));
         this.$vToastify.success(data);
-        this.$router.push("/login");
-        this.token = localStorage.getItem("token");
-        this.user = JSON.parse(localStorage.getItem("user"));
+        this.$router.push("/");
+        location.reload();
       } catch (error) {
         this.$vToastify.error("Logout Failed");
         console.error(error);
