@@ -32,7 +32,8 @@
       leave-active-class="animate__animated animate__fadeOut"
       id="transaction_table"
     >
-      <div class="shadow p-3 pb-0 rounded" v-if="transaction.user_id">
+      <div class="shadow px-3 pb-0 rounded" v-if="transaction.user_id">
+        <h3 class="text-center text-dark border-bottom border-secondary my-3">Last Transaction</h3>
         <div class="table-responsive">
           <table class="table">
             <thead>
