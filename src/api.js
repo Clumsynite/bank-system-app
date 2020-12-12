@@ -1,4 +1,5 @@
 const URL = "https://bank-service-api.herokuapp.com";
+// const url = "http://localhost:5000";
 
 export const signup = async (user) => {
   try {
@@ -62,6 +63,39 @@ export const userBalance = async (username, token) => {
       headers: {
         authorization: `Bearer ${token}`,
       },
+    });
+    return await response.json();
+  } catch (error) {
+    return error;
+  }
+};
+
+export const withdraw = async (amount, token) => {
+  try {
+    const response = await fetch(`${URL}/account/withdraw`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(amount),
+    });
+    return await response.json();
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deposit = async (amount, token) => {
+  try {
+    const response = await fetch(`${URL}/account/deposit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      credentials: "include",
+      body: JSON.stringify(amount),
     });
     return await response.json();
   } catch (error) {
