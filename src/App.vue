@@ -49,6 +49,17 @@
               >Customer Profile</router-link
             >
           </li>
+          <li
+            class="nav-item"
+            v-if="token !== null && user.account === 'customer'"
+          >
+            <router-link
+              to="/transact"
+              class="nav-link"
+              active-class="active"
+              >Transact</router-link
+            >
+          </li>
         </ul>
         <ul class="navbar-nav ms-auto">
           <li v-if="token !== null">
