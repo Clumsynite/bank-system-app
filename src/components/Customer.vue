@@ -20,15 +20,19 @@
       leave-active-class="animate__animated animate__slideOutDown"
       id="transaction_table"
     >
-      <vue-good-table
-        :columns="columns"
-        :rows="transactions"
-        v-if="transactions.length > 0"
-        class="shadow"
-        max-height="300px"
-        :fixed-header="true"
-        :line-numbers="true"
-      />
+      <div class="shadow rounded" v-if="transactions.length > 0">
+        <h4 class="border-bottom border-dark text-center my-3 p-2">
+          All Transactions
+        </h4>
+        <vue-good-table
+          :columns="columns"
+          :rows="transactions"
+          class="shadow"
+          max-height="300px"
+          :fixed-header="true"
+          :line-numbers="true"
+        />
+      </div>
     </transition>
   </div>
 </template>
