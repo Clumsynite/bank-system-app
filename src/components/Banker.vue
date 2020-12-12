@@ -13,6 +13,16 @@
     </div>
     <transition
       name="slide-in"
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+      id="transaction_table"
+    >
+      <h3 class="text-center mt-3 text-dark" v-if="users.length === 0">
+        Loading Table...
+      </h3>
+    </transition>
+    <transition
+      name="slide-in"
       enter-active-class="animate__animated animate__slideInUp"
       leave-active-class="animate__animated animate__slideOutDown"
       id="transaction_table"
@@ -63,6 +73,11 @@ export default {
           field: "username",
         },
         {
+          label: "Balance",
+          field: "total",
+          type: "number",
+        },
+        {
           label: "Joined",
           field: "joined",
         },
@@ -83,7 +98,6 @@ export default {
         const data = await allCustomers(localStorage.token);
         data.forEach((row) => {
           row.joined = fromNow(row.joined);
-          row.password = "***";
         });
         this.users = data;
       } catch (error) {
