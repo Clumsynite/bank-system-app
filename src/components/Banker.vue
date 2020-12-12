@@ -11,21 +11,83 @@
         <p class="card-text">Account type: {{ user.account }}</p>
       </div>
     </div>
+    <transition
+      name="slide-in"
+      enter-active-class="animate__animated animate__slideInUp"
+      leave-active-class="animate__animated animate__slideOutDown"
+      id="transaction_table"
+    >
+      <vue-good-table
+        :columns="columns"
+        :rows="users"
+        v-if="users.length > 0"
+        class="shadow"
+        max-height="300px"
+        :fixed-header="true"
+        :line-numbers="true"
+        @on-row-click="onRowClick"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
+import { allCustomers } from "../api";
 import { fromNow } from "../helper";
+import { VueGoodTable } from "vue-good-table";
 export default {
   name: "Banker",
+  components: {
+    VueGoodTable,
+  },
   data() {
     return {
       user: JSON.parse(localStorage.user),
+      users: [],
+      columns: [
+        {
+          label: "User ID",
+          field: "user_id",
+          type: "number",
+        },
+        {
+          label: "Full Name",
+          field: "name",
+        },
+        {
+          label: "Username",
+          field: "username",
+        },
+        {
+          label: "Joined",
+          field: "joined",
+        },
+      ],
     };
   },
   computed: {
     date: function() {
       return fromNow(this.user.joined);
+    },
+  },
+  mounted: function() {
+    this.getallCustomers();
+  },
+  methods: {
+    async getallCustomers() {
+      try {
+        const data = await allCustomers(localStorage.token);
+        data.forEach((row) => {
+          row.joined = fromNow(row.joined);
+          row.password = "***";
+        });
+        this.users = data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onRowClick(params) {
+      console.log(params);
     },
   },
 };
