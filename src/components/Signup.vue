@@ -90,6 +90,7 @@ export default {
         this.loading = false;
         if (data.msg) {
           this.$vToastify.success(data.msg);
+          this.$router.push('/login')
         } else if (data.err) {
           this.$vToastify.error(data.err);
         }
