@@ -1,4 +1,4 @@
-const URL = "https://bank-service-api.herokuapp.com";
+const URL = "https://bank-system-api.herokuapp.com";
 // const url = "http://localhost:5000";
 
 export const signup = async (user) => {
