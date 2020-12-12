@@ -91,7 +91,7 @@ export default {
       }
     },
     onRowClick(params) {
-      console.log(params);
+      this.$router.push(`/banker/${params.row.username}/transactions`);
     },
   },
 };
