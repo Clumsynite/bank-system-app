@@ -79,9 +79,9 @@ export default {
           localStorage.setItem("token", data.token);
           this.$vToastify.success(data.msg);
           this.$router.push("/");
-          location.reload()
           location.reload();
-          } else if (data.err) {
+          location.reload();
+        } else if (data.err) {
           this.$vToastify.error(data.err);
         }
       } catch (error) {
