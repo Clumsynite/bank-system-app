@@ -55,3 +55,16 @@ export const userTransactions = async (username, token) => {
     return error;
   }
 };
+
+export const userBalance = async (username, token) => {
+  try {
+    const response = await fetch(`${URL}/user/${username}/balance`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    return error;
+  }
+};
