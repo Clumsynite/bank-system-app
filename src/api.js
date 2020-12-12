@@ -42,3 +42,16 @@ export const logout = async () => {
     return error;
   }
 };
+
+export const userTransactions = async (username, token) => {
+  try {
+    const response = await fetch(`${URL}/user/${username}/transactions`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    return error;
+  }
+};
