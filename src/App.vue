@@ -8,8 +8,8 @@
       <button
         class="navbar-toggler"
         type="button"
-        data-toggle="collapse"
-        data-target="#navbarContent"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarContent"
         aria-controls="navbarContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
@@ -53,10 +53,7 @@
             class="nav-item"
             v-if="token !== null && user.account === 'customer'"
           >
-            <router-link
-              to="/transact"
-              class="nav-link"
-              active-class="active"
+            <router-link to="/transact" class="nav-link" active-class="active"
               >Transact</router-link
             >
           </li>
