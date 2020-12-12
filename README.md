@@ -22,7 +22,7 @@ You will need to handle authentication using JWT Tokens and Knex with Mysql. Thi
 
 ### Frontend
 
-- Repo: [http://github.com/clumsynite/bank-system-api](http://github.com/clumsynite/bank-system-api)
+- Repo: [http://github.com/clumsynite/bank-system-app](http://github.com/clumsynite/bank-system-app)
 - Live: [https://bank-system-app.netlify.app](https://bank-system-app.netlify.app)
 
 ## Project setup
