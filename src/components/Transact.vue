@@ -4,7 +4,7 @@
       <span v-if="!totalLoading"> Total Balance: {{ total }}</span>
       <Spinner size="28" line-fg-color="#357EDD" line-bg-color="azure" v-else />
     </h3>
-    <div class="card shadow 2-75 p-4">
+    <div class="card shadow-sm 2-75 p-4 mb-4">
       <div class="form-floating mb-3">
         <input
           type="number"
@@ -26,11 +26,45 @@
         </button>
       </div>
     </div>
+    <transition
+      name="slide-in"
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+      id="transaction_table"
+    >
+      <div class="shadow p-3 pb-0 rounded" v-if="transaction.user_id">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">User ID</th>
+                <th scope="col">Transaction ID</th>
+                <th scope="col">Cash Deposited</th>
+                <th scope="col">Cash Withdrawn</th>
+                <th scope="col">Total</th>
+                <th scope="col">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ transaction.user_id }}</td>
+                <td>{{ transaction.transaction_id }}</td>
+                <td>{{ transaction.cash_deposited }}</td>
+                <td>{{ transaction.cash_withdrawn }}</td>
+                <td>{{ total }}</td>
+                <td>{{ transaction_time }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import { userBalance, withdraw, deposit } from "../api";
+import { fromNow } from "../helper";
 import Spinner from "vue-simple-spinner";
 export default {
   name: "Transact",
@@ -42,9 +76,11 @@ export default {
       amount: null,
       total: 0,
       userId: JSON.parse(localStorage.user).user_id,
+      transaction_time: null,
       withdrawLoading: false,
       depositLoading: false,
       totalLoading: false,
+      transaction: [],
     };
   },
   mounted: function() {
@@ -58,6 +94,8 @@ export default {
         const data = await userBalance(this.userId, localStorage.token);
         this.totalLoading = false;
         this.total = data.balance;
+        this.transaction = data.latest;
+        this.transaction_time = fromNow(data.latest.transaction_time);
       } catch (error) {
         this.totalLoading = false;
         console.error(error);
