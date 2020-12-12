@@ -78,7 +78,10 @@ export default {
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("token", data.token);
           this.$vToastify.success(data.msg);
-        } else if (data.err) {
+          this.$router.push("/");
+          location.reload()
+          location.reload();
+          } else if (data.err) {
           this.$vToastify.error(data.err);
         }
       } catch (error) {
