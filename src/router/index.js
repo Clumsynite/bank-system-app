@@ -15,14 +15,6 @@ const routes = [
     component: Home,
   },
   {
-    path: "/login",
-    name: "login",
-    component: Login,
-    meta: {
-      guest: true,
-    },
-  },
-  {
     path: "/signup",
     name: "signup",
     component: Signup,
@@ -31,20 +23,27 @@ const routes = [
     },
   },
   {
-    path: "/profile",
-    name: "customer",
-    component: Customer,
+    path: "/login",
+    name: "login",
+    component: Login,
+    meta: {
+      guest: true,
+    },
+  },
+  {
+    path: "/banker",
+    name: "banker",
+    component: Banker,
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/admin",
-    name: "banker",
-    component: Banker,
+    path: "/customer",
+    name: "customer",
+    component: Customer,
     meta: {
       requiresAuth: true,
-      banker: true,
     },
   },
 ];
@@ -65,12 +64,10 @@ router.beforeEach((to, from, next) => {
         params: { nextUrl: to.fullPath },
       });
     } else {
-      if (to.matched.some((record) => record.meta.banker)) {
-        if (user.account === "banker") {
-          next();
-        } else {
-          next({ name: "customer" });
-        }
+      if (to.name !== "banker" && user.account === "banker") {
+        next({ name: "banker" });
+      } else if (to.name !== "customer" && user.account === "customer") {
+        next({ name: "customer" });
       } else {
         next();
       }
@@ -78,11 +75,8 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some((record) => record.meta.guest)) {
     if (token === null) {
       next();
-    } else {
-      next({ name: "customer" });
     }
   } else {
-    
     next();
   }
 });
